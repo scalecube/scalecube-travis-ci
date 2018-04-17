@@ -33,7 +33,7 @@ if [ ! -f .travis.yml  ]; then
 	travis init java
 fi
 encrypted_SOME_iv=$(date | md5sum | head -c10)
-encrypted_SOME_key=$(date | sha256sum | head -c120)
+encrypted_SOME_key=$(date | sha256sum | head -c64)
 
 travis encrypt encrypted_SOME_iv=$encrypted_SOME_iv   --add
 travis encrypt encrypted_SOME_key=$encrypted_SOME_key --add
