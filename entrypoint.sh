@@ -61,6 +61,6 @@ git commit -am "+ secret file"
 git push origin travis-ci-cd
 
 # create a PR
-curl -XPOST-u "$GITHUBUSER:$GITHUBTOKEN" \
+curl -XPOST -u "$GITHUBUSER:$GITHUBTOKEN" \
   -d '{"title": "ci-cd using Travis CI", "body": "ci-cd using Travis CI",  "head": "travis-ci-cd",  "base": "'$ACTIVE_BRANCH'"}'\
  https://api.github.com/repos/$GITREPONAME/pulls
