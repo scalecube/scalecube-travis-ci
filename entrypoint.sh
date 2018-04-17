@@ -40,7 +40,7 @@ yes | travis login --github-token $GITHUBTOKEN
 travis enable --store-repo $GITREPONAME
 
 if [ ! -f .travis.yml  ]; then
-	travis init java
+	travis init java --jdk openjdk8
 fi
 encrypted_SOME_iv=$(date | md5sum | head -c10)
 encrypted_SOME_key=$(date | sha256sum | head -c64)
