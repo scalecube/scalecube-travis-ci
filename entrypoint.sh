@@ -41,6 +41,8 @@ travis enable --store-repo $GITREPONAME
 
 if [ ! -f .travis.yml  ]; then
 	travis init java --jdk openjdk8
+	git add .travis.yml
+    git commit -m "new: travis ci configuration file"
 fi
 encrypted_SOME_iv=$(date | md5sum | head -c10)
 encrypted_SOME_key=$(date | sha256sum | head -c64)
@@ -51,12 +53,14 @@ travis encrypt SONATYPE_USERNAME=$SONATYPE_USERNAME   --add
 travis encrypt SONATYPE_PASSWORD=$SONATYPE_PASSWORD   --add
 travis encrypt GPG_PASSPHRASE=$GPG_PASSPHRASE         --add
 travis encrypt GPG_KEY=$GPG_KEY                       --add
-git add --all
-git commit -am "+ secret keys"
+
+git add .travis.yml
+git commit -m "+ secret keys"
+
 
 openssl aes-256-cbc -K $encrypted_key -iv $encrypted_iv -in ~/bkp/secrets.tar.enc | openssl aes-256-cbc -K $encrypted_SOME_key -iv $encrypted_SOME_iv -out ~/repo/src/main/scripts/cd/secrets.tar.enc
-git add --all
-git commit -am "+ secret file"
+git add src/main/scripts/cd/secrets.tar.enc
+git commit -m "+ secret file"
 
 git push origin travis-ci-cd
 
