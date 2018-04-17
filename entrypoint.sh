@@ -26,7 +26,7 @@ git clone git@github.com:$GITREPONAME.git ~/repo
 cd ~/repo
 setupgit
 
-travis login --github-token $GITHUBTOKEN
+yes | travis login --github-token $GITHUBTOKEN
 travis enable -r $GITREPONAME 
 encrypted_SOME_iv=$(date | md5sum | head -c10)
 encrypted_SOME_key=$(date | sha256sum | head -c120)
