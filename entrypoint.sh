@@ -29,7 +29,7 @@ setupgit
 yes | travis login --github-token $GITHUBTOKEN
 travis enable --store-repo $GITREPONAME
 
-if [ ~ -f .travis.yml  ]; then
+if [ ! -f .travis.yml  ]; then
 	travis init java
 fi
 encrypted_SOME_iv=$(date | md5sum | head -c10)
