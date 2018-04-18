@@ -38,13 +38,18 @@ yes | travis login --github-token $GITHUBTOKEN
 travis enable --store-repo $GITREPONAME
 
 if [ ! -f .travis.yml  ]; then
+    cat /opt/prepend.to.travis.yml > .travis.yml
 	travis init java --jdk openjdk8 \
 	   --before-install "./src/main/scripts/ci/before-install.sh" \
 	   --before-install "./src/main/scripts/cd/before-deploy.sh" \
 	   --after-success "java -jar ~/codacy-coverage-reporter-assembly.jar -l Java -r ./target/site/jacoco/jacoco.xml"
+    
     cat /opt/append.to.travis.yml >> .travis.yml
 	git add .travis.yml
     git commit -m "new: travis ci configuration file"
+    echo ***** travis.yml *****
+    cat travis.yml
+    echo ***** travis.yml *****
 fi
 encrypted_SOME_iv=$(date | md5sum | head -c10)
 encrypted_SOME_key=$(date | sha256sum | head -c64)
