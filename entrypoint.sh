@@ -1,36 +1,38 @@
 #! /bin/bash 
-
+set -xe
 encrypted_SOME_iv=$encrypted_iv
 encrypted_SOME_key=$encrypted_key
 
-TRAVIS_PULL_REQUEST=''
+TRAVIS_PULL_REQUEST='false'
 TRAVIS_REPO_SLUG=$GITREPONAME
+TRAVIS_BUILD_DIR=~/repo
+TRAVIS_BRANCH=travis-ci-cd
+
 cd ~
 mkdir ~/.ssh
 chmod 700 ~/.ssh
 
-#backup encrypted tar
-mkdir -p ~/bkp
-chmod 700 ~/bkp
-cp ~/src/main/scripts/cd/secrets.tar.enc ~/bkp/secrets.tar.enc
-
 . ~/src/main/scripts/cd/before-deploy.sh
-
+TRAVIS_BUILD_DIR=~
 decryptsecrets
-#importpgp
+TRAVIS_BUILD_DIR=~/repo
 setupssh
 
-git clone git@github.com:$GITREPONAME.git ~/repo
-cd ~/repo
+git clone git@github.com:$GITREPONAME.git $TRAVIS_BUILD_DIR
+cd $TRAVIS_BUILD_DIR
 setupgit
-ACTIVE_BRANCH=`git rev-parse --abbrev-ref HEAD`
-git checkout travis-ci-cd || git checkout -b travis-ci-cd
+cp ~/src/main/scripts/cd/secrets.tar.enc $TRAVIS_BUILD_DIR/src/main/scripts/cd/secrets.tar.enc
+importpgp
 
-mkdir -p ~/repo/src/main/scripts/cd/
-cp ~/src/main/scripts/cd/*.sh ~/repo/src/main/scripts/cd/
+
+DEFAULT_BRANCH=$(curl -XPOST -u '$GITHUBUSER:$GITHUBTOKEN' https://api.github.com/repos/$GITREPONAME | jq '.default_branch')
+
+
+mkdir -p $TRAVIS_BUILD_DIR/src/main/scripts/cd/
+cp ~/src/main/scripts/cd/*.sh $TRAVIS_BUILD_DIR/src/main/scripts/cd/
 
 mkdir -p ~/repo/src/main/scripts/ci/
-cp ~/src/main/scripts/ci/*.sh ~/repo/src/main/scripts/ci/
+cp ~/src/main/scripts/ci/*.sh $TRAVIS_BUILD_DIR/src/main/scripts/ci/
 git add --all
 git commit -am "+ script files"
 
@@ -64,8 +66,8 @@ travis encrypt GPG_KEY=$GPG_KEY                       --add
 git add .travis.yml
 git commit -m "+ secret keys"
 
-
-openssl aes-256-cbc -K $encrypted_key -iv $encrypted_iv -in ~/bkp/secrets.tar.enc | openssl aes-256-cbc -K $encrypted_SOME_key -iv $encrypted_SOME_iv -out ~/repo/src/main/scripts/cd/secrets.tar.enc
+openssl aes-256-cbc -K $encrypted_key -iv $encrypted_iv -in ~/src/main/scripts/cd/secrets.tar.enc | md5sum
+openssl aes-256-cbc -K $encrypted_key -iv $encrypted_iv -in ~/src/main/scripts/cd/secrets.tar.enc | openssl aes-256-cbc -K $encrypted_SOME_key -iv $encrypted_SOME_iv -out $TRAVIS_BUILD_DIR/src/main/scripts/cd/secrets.tar.enc
 git add src/main/scripts/cd/secrets.tar.enc
 git commit -m "+ secret file"
 
@@ -73,5 +75,5 @@ git push origin travis-ci-cd
 
 # create a PR
 curl -XPOST -u "$GITHUBUSER:$GITHUBTOKEN" \
-  -d '{"title": "ci-cd using Travis CI", "body": "ci-cd using Travis CI",  "head": "travis-ci-cd",  "base": "'$ACTIVE_BRANCH'"}'\
+  -d '{"title": "ci-cd using Travis CI", "body": "ci-cd using Travis CI",  "head": "travis-ci-cd",  "base": "'$DEFAULT_BRANCH'"}'\
  https://api.github.com/repos/$GITREPONAME/pulls
