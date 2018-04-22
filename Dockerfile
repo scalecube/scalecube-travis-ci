@@ -1,6 +1,7 @@
 FROM ruby as enable-ci-cd-using-travis
 RUN gem install travis
-RUN apt-get install jq
+RUN apt-get update
+RUN apt-get install -y jq
 
 ADD entrypoint.sh /opt
 ADD append.to.travis.yml /opt
