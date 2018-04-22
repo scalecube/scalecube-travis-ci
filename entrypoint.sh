@@ -54,12 +54,7 @@ fi
 encrypted_SOME_iv=$(date | md5sum | head -c10)
 encrypted_SOME_key=$(date | sha256sum | head -c64)
 
-travis encrypt encrypted_SOME_iv=$encrypted_SOME_iv   --add -x
-travis encrypt encrypted_SOME_key=$encrypted_SOME_key --add
-travis encrypt SONATYPE_USERNAME=$SONATYPE_USERNAME   --add
-travis encrypt SONATYPE_PASSWORD=$SONATYPE_PASSWORD   --add
-travis encrypt GPG_PASSPHRASE=$GPG_PASSPHRASE         --add
-travis encrypt GPG_KEY=$GPG_KEY                       --add
+travis env copy encrypted_SOME_iv encrypted_SOME_key SONATYPE_USERNAME SONATYPE_PASSWORD GPG_PASSPHRASE GPG_KEY -p
 
 git add .travis.yml
 git commit -m "+ secret keys"
