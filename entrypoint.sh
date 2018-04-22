@@ -21,12 +21,10 @@ setupssh
 git clone git@github.com:$GITREPONAME.git $TRAVIS_BUILD_DIR
 cd $TRAVIS_BUILD_DIR
 setupgit
-cp ~/src/main/scripts/cd/secrets.tar.enc $TRAVIS_BUILD_DIR/src/main/scripts/cd/secrets.tar.enc
 importpgp
 
 
-DEFAULT_BRANCH=$(curl -XPOST -u '$GITHUBUSER:$GITHUBTOKEN' https://api.github.com/repos/$GITREPONAME | jq '.default_branch')
-
+DEFAULT_BRANCH=$(curl -u "$GITHUBUSER:$GITHUBTOKEN" https://api.github.com/repos/$GITREPONAME | jq '.default_branch')
 
 mkdir -p $TRAVIS_BUILD_DIR/src/main/scripts/cd/
 cp ~/src/main/scripts/cd/*.sh $TRAVIS_BUILD_DIR/src/main/scripts/cd/
@@ -56,7 +54,7 @@ fi
 encrypted_SOME_iv=$(date | md5sum | head -c10)
 encrypted_SOME_key=$(date | sha256sum | head -c64)
 
-travis encrypt encrypted_SOME_iv=$encrypted_SOME_iv   --add
+travis encrypt encrypted_SOME_iv=$encrypted_SOME_iv   --add -x
 travis encrypt encrypted_SOME_key=$encrypted_SOME_key --add
 travis encrypt SONATYPE_USERNAME=$SONATYPE_USERNAME   --add
 travis encrypt SONATYPE_PASSWORD=$SONATYPE_PASSWORD   --add
@@ -66,8 +64,7 @@ travis encrypt GPG_KEY=$GPG_KEY                       --add
 git add .travis.yml
 git commit -m "+ secret keys"
 
-openssl aes-256-cbc -K $encrypted_key -iv $encrypted_iv -in ~/src/main/scripts/cd/secrets.tar.enc | md5sum
-openssl aes-256-cbc -K $encrypted_key -iv $encrypted_iv -in ~/src/main/scripts/cd/secrets.tar.enc | openssl aes-256-cbc -K $encrypted_SOME_key -iv $encrypted_SOME_iv -out $TRAVIS_BUILD_DIR/src/main/scripts/cd/secrets.tar.enc
+openssl aes-256-cbc -d -K $encrypted_key -iv $encrypted_iv -in ~/src/main/scripts/cd/secrets.tar.enc | openssl aes-256-cbc -K $encrypted_SOME_key -iv $encrypted_SOME_iv -out $TRAVIS_BUILD_DIR/src/main/scripts/cd/secrets.tar.enc
 git add src/main/scripts/cd/secrets.tar.enc
 git commit -m "+ secret file"
 
@@ -75,5 +72,5 @@ git push origin travis-ci-cd
 
 # create a PR
 curl -XPOST -u "$GITHUBUSER:$GITHUBTOKEN" \
-  -d '{"title": "ci-cd using Travis CI", "body": "ci-cd using Travis CI",  "head": "travis-ci-cd",  "base": "'$DEFAULT_BRANCH'"}'\
+  -d '{"title": "ci-cd using Travis CI", "body": "ci-cd using Travis CI",  "head": "travis-ci-cd",  "base": '$DEFAULT_BRANCH'}'\
  https://api.github.com/repos/$GITREPONAME/pulls
