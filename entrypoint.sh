@@ -32,7 +32,7 @@ cp ~/src/main/scripts/cd/*.sh $TRAVIS_BUILD_DIR/src/main/scripts/cd/
 mkdir -p ~/repo/src/main/scripts/ci/
 cp ~/src/main/scripts/ci/*.sh $TRAVIS_BUILD_DIR/src/main/scripts/ci/
 git add --all
-git commit -am "+ script files"
+git commit -am "+ script files" | true 
 
 yes | travis login --github-token $GITHUBTOKEN
 travis enable --store-repo $GITREPONAME
