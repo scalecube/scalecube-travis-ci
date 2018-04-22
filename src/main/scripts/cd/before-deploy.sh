@@ -42,8 +42,7 @@ function setupgit {
 	git config --global user.email "io.scalecube.ci@gmail.com"
     git config --global user.name "io-scalecube-ci"
     git config --global user.signingkey $GPG_KEY
-	git checkout $TRAVIS_BRANCH
-	git reset --hard $TRAVIS_BRANCH
+	git checkout -B $TRAVIS_BRANCH
 }
 
 function deployment {
