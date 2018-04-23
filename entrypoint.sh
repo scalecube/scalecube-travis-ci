@@ -51,17 +51,17 @@ if [ ! -f .travis.yml  ]; then
     cat travis.yml
     echo ***** travis.yml *****
 fi
-encrypted_SOME_iv=$(date | md5sum | head -c10)
-encrypted_SOME_key=$(date | sha256sum | head -c64)
 
-travis env copy encrypted_SOME_iv encrypted_SOME_key SONATYPE_USERNAME SONATYPE_PASSWORD GPG_PASSPHRASE GPG_KEY -p
+export encrypted_SOME_iv=$(echo $TRAVIS_REPO_SLUG$encrypted_iv | md5sum | head -c10)
+export encrypted_SOME_key=$(echo $TRAVIS_REPO_SLUG$encrypted_key | sha256sum | head -c64)
 
-git add .travis.yml && git commit -m "+ secret keys" || true
+travis env copy encrypted_SOME_iv encrypted_SOME_key SONATYPE_USERNAME SONATYPE_PASSWORD GPG_KEYID GPG_PASSPHRASE GPG_KEY -f -p
+
+git add .travis.yml && git commit -a -m "+ secret keys" || true
 
 openssl aes-256-cbc -d -K $encrypted_key -iv $encrypted_iv -in ~/src/main/scripts/cd/secrets.tar.enc | openssl aes-256-cbc -K $encrypted_SOME_key -iv $encrypted_SOME_iv -out $TRAVIS_BUILD_DIR/src/main/scripts/cd/secrets.tar.enc
 git add src/main/scripts/cd/secrets.tar.enc
-git commit -m "+ secret file"
-
+git commit -a -m "+ secret file"
 git push origin travis-ci-cd
 
 # create a PR
