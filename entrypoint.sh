@@ -56,8 +56,7 @@ encrypted_SOME_key=$(date | sha256sum | head -c64)
 
 travis env copy encrypted_SOME_iv encrypted_SOME_key SONATYPE_USERNAME SONATYPE_PASSWORD GPG_PASSPHRASE GPG_KEY -p
 
-git add .travis.yml
-git commit -m "+ secret keys"
+git add .travis.yml && git commit -m "+ secret keys" || true
 
 openssl aes-256-cbc -d -K $encrypted_key -iv $encrypted_iv -in ~/src/main/scripts/cd/secrets.tar.enc | openssl aes-256-cbc -K $encrypted_SOME_key -iv $encrypted_SOME_iv -out $TRAVIS_BUILD_DIR/src/main/scripts/cd/secrets.tar.enc
 git add src/main/scripts/cd/secrets.tar.enc
