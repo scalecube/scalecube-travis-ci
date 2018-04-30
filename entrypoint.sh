@@ -35,7 +35,7 @@ git add --all
 git commit -am "+ script files" | true 
 
 yes | travis login --github-token $GITHUBTOKEN
-travis enable --store-repo $GITREPONAME
+travis enable --org --store-repo $GITREPONAME
 
 if [ ! -f .travis.yml  ]; then
     cat /opt/prepend.to.travis.yml > .travis.yml
@@ -61,7 +61,7 @@ git add .travis.yml && git commit -a -m "+ secret keys" || true
 
 openssl aes-256-cbc -d -K $encrypted_key -iv $encrypted_iv -in ~/src/main/scripts/cd/secrets.tar.enc | openssl aes-256-cbc -K $encrypted_SOME_key -iv $encrypted_SOME_iv -out $TRAVIS_BUILD_DIR/src/main/scripts/cd/secrets.tar.enc
 git add src/main/scripts/cd/secrets.tar.enc
-git commit -a -m "+ secret file"
+git commit -a -m "+ secret file" || true
 git push origin travis-ci-cd
 
 # create a PR
