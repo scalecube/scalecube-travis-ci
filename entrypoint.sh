@@ -55,7 +55,7 @@ fi
 export encrypted_SOME_iv=$(echo $TRAVIS_REPO_SLUG$encrypted_iv | md5sum | head -c10)
 export encrypted_SOME_key=$(echo $TRAVIS_REPO_SLUG$encrypted_key | sha256sum | head -c64)
 
-travis env copy encrypted_SOME_iv encrypted_SOME_key SONATYPE_USERNAME SONATYPE_PASSWORD GPG_KEYID GPG_PASSPHRASE GPG_KEY GITHUBUSER GITHUBTOKEN -f -p
+travis env copy encrypted_SOME_iv encrypted_SOME_key SONATYPE_USERNAME SONATYPE_PASSWORD GPG_KEYID GPG_PASSPHRASE GPG_KEY GITHUBUSER GITHUBTOKEN DOCKER_USERNAME DOCKER_PASSWORD -f -p
 
 git add .travis.yml && git commit -a -m "+ secret keys" || true
 
