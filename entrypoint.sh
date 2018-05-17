@@ -48,7 +48,7 @@ if [ ! -f .travis.yml  ]; then
 	git add .travis.yml
     git commit -m "new: travis ci configuration file"
     echo ***** travis.yml *****
-    cat travis.yml
+    cat .travis.yml
     echo ***** travis.yml *****
 fi
 
