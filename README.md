@@ -1,4 +1,7 @@
 # enable-ci-cd-using-travis
+This project automatically apply CI/CD for your scalecube project. it apply the relevant script files for ci/cd that will manage the release/snapshoot versions and continusly deploy the artifacts to maven central.
+
+
 In order to enable CI-CD on your project:
 
 0. git clone git@github.com:scalecube/enable-ci-cd-using-travis.git
