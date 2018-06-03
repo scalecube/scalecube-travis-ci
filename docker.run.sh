@@ -1,5 +1,5 @@
 #! /bin/bash 
-
+set -xe
 docker run -it --rm -e GITREPONAME=$SLUG \
     -e encrypted_key=$encrypted_SOME_iv \
     -e encrypted_iv=$encrypted_SOME_key \
