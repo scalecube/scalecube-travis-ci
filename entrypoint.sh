@@ -96,5 +96,5 @@ if [ -z "$projectscmconnection"]; then
 fi
 
 if [ "scm:git:git@github.com:$TRAVIS_REPO_SLUG.git" != "$projectscmconnection"]; then
-		curl -XPOST -u "$GITHUBUSER:$GITHUBTOKEN" -d '{"body":"invalid project.scm.connection in pom.xml"}' $comments
+		curl -XPOST -u "$GITHUBUSER:$GITHUBTOKEN" -d '{"body":"invalid project.scm.connection in pom.xml: expected scm:git:git@github.com:'$TRAVIS_REPO_SLUG'.git but was '$projectscmconnection'!"}' $comments
 fi
