@@ -23,7 +23,6 @@ cd $TRAVIS_BUILD_DIR
 setupgit
 importpgp
 
-
 DEFAULT_BRANCH=$(curl -u "$GITHUBUSER:$GITHUBTOKEN" https://api.github.com/repos/$GITREPONAME | jq '.default_branch')
 
 mkdir -p $TRAVIS_BUILD_DIR/src/main/scripts/cd/
@@ -34,10 +33,10 @@ cp ~/src/main/scripts/ci/*.sh $TRAVIS_BUILD_DIR/src/main/scripts/ci/
 git add --all
 git commit -am "+ script files" | true 
 
-yes | travis login --github-token $GITHUBTOKEN
+yes | travis login --org --github-token $GITHUBTOKEN
 travis enable --org --store-repo $GITREPONAME
 
-if [ ! -f .travis.yml  ]; then
+if [ ! -f '.travis.yml'  ]; then
     cat /opt/prepend.to.travis.yml > .travis.yml
 	travis init java --jdk openjdk8 \
 	   --before-install "./src/main/scripts/ci/before-install.sh" \
