@@ -70,7 +70,7 @@ cd ~
 
 # create a PR
 curl -XPOST -u "$GITHUBUSER:$GITHUBTOKEN" \
-  -o ~/pullrequest.json \ 
+  -o ~/pullrequest.json \
   -d '{"title": "ci-cd using Travis CI", "body": "ci-cd using Travis CI",  "head": "travis-ci-cd",  "base": '$DEFAULT_BRANCH'}'\
  https://api.github.com/repos/$GITREPONAME/pulls
  
