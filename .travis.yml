@@ -11,4 +11,4 @@ services:
 install:
   docker build . --tag enable-ci-cd-using-travis
 script:
-  docker.run.sh
+  ./docker.run.sh
