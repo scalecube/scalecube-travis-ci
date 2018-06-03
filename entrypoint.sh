@@ -66,7 +66,35 @@ git add src/main/scripts/cd/secrets.tar.enc
 git commit -a -m "+ secret file" || true
 git push origin travis-ci-cd
 
+cd ~
+
 # create a PR
 curl -XPOST -u "$GITHUBUSER:$GITHUBTOKEN" \
+  -o ~/pullrequest.json \ 
   -d '{"title": "ci-cd using Travis CI", "body": "ci-cd using Travis CI",  "head": "travis-ci-cd",  "base": '$DEFAULT_BRANCH'}'\
  https://api.github.com/repos/$GITREPONAME/pulls
+ 
+comments=`jq '._links.comments.href' ~/pullrequest.json`
+
+if [ ! -f $TRAVIS_BUILD_DIR/travis-settings.xml ]; then
+	curl -XPOST -u "$GITHUBUSER:$GITHUBTOKEN" -d '{"body":"missing travis-settings.xml"}' $comments
+	exit 142
+fi
+
+if [ ! -f $TRAVIS_BUILD_DIR/pom.xml ]; then
+	curl -XPOST -u "$GITHUBUSER:$GITHUBTOKEN" -d '{"body":"missing pom.xml. is it a java project?"}' $comments
+	exit 142
+fi
+
+mvn -B -q -f $TRAVIS_BUILD_DIR/pom.xml -s $TRAVIS_BUILD_DIR/travis-settings.xml \
+     help:evaluate -Dexpression=project.scm.connection -Doutput=~/project.scm.connection
+
+projectscmconnection=`cat ~/project.scm.connection`
+
+if [ -z "$projectscmconnection"]; then
+		curl -XPOST -u "$GITHUBUSER:$GITHUBTOKEN" -d '{"body":"missing project.scm.connection in pom.xml"}' $comments
+fi
+
+if [ "scm:git:git@github.com:$TRAVIS_REPO_SLUG.git" != "$projectscmconnection"]; then
+		curl -XPOST -u "$GITHUBUSER:$GITHUBTOKEN" -d '{"body":"invalid project.scm.connection in pom.xml"}' $comments
+fi
