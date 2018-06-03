@@ -27,9 +27,12 @@ DEFAULT_BRANCH=$(curl -u "$GITHUBUSER:$GITHUBTOKEN" https://api.github.com/repos
 
 mkdir -p $TRAVIS_BUILD_DIR/src/main/scripts/cd/
 cp ~/src/main/scripts/cd/*.sh $TRAVIS_BUILD_DIR/src/main/scripts/cd/
+chmod u+x $TRAVIS_BUILD_DIR/src/main/scripts/cd/*.sh
 
 mkdir -p ~/repo/src/main/scripts/ci/
 cp ~/src/main/scripts/ci/*.sh $TRAVIS_BUILD_DIR/src/main/scripts/ci/
+chmod u+x $TRAVIS_BUILD_DIR/src/main/scripts/ci/*.sh
+
 git add --all
 git commit -am "+ script files" | true 
 
