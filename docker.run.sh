@@ -1,8 +1,8 @@
 #! /bin/bash 
 set -xe
 docker run -it --rm -e GITREPONAME=$SLUG \
-    -e encrypted_key=$encrypted_SOME_iv \
-    -e encrypted_iv=$encrypted_SOME_key \
+    -e encrypted_key=$encrypted_iv \
+    -e encrypted_iv=$encrypted_key \
     -e GITHUBTOKEN=$GITHUBTOKEN \
     -e SONATYPE_USERNAME=$SONATYPE_USERNAME \
     -e SONATYPE_PASSWORD=$SONATYPE_PASSWORD \
