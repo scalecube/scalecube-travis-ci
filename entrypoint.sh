@@ -86,7 +86,7 @@ if [ ! -f $TRAVIS_BUILD_DIR/pom.xml ]; then
 	exit 142
 fi
 
-mvn -B -q -f $TRAVIS_BUILD_DIR/pom.xml -s $TRAVIS_BUILD_DIR/travis-settings.xml -P release \
+mvn -B -f $TRAVIS_BUILD_DIR/pom.xml -s $TRAVIS_BUILD_DIR/travis-settings.xml -P release \
      help:evaluate -Dexpression=project.scm.connection -Doutput=~/project.scm.connection
 
 projectscmconnection=`cat ~/project.scm.connection`
