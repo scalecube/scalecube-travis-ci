@@ -77,24 +77,30 @@ curl -XPOST -u "$GITHUBUSER:$GITHUBTOKEN" \
 eval "export comments=`jq '._links.comments.href' ~/pullrequest.json`"
 
 if [ ! -f $TRAVIS_BUILD_DIR/travis-settings.xml ]; then
+	echo missing travis-settings.xml
 	curl -XPOST -u "$GITHUBUSER:$GITHUBTOKEN" -d '{"body":"missing travis-settings.xml"}' $comments
 	exit 142
 fi
 
 if [ ! -f $TRAVIS_BUILD_DIR/pom.xml ]; then
+	echo missing pom.xml. is it a java project?
 	curl -XPOST -u "$GITHUBUSER:$GITHUBTOKEN" -d '{"body":"missing pom.xml. is it a java project?"}' $comments
 	exit 142
 fi
 
-mvn -B -f $TRAVIS_BUILD_DIR/pom.xml -s $TRAVIS_BUILD_DIR/travis-settings.xml -P release \
+mvn -B -q -f $TRAVIS_BUILD_DIR/pom.xml -s $TRAVIS_BUILD_DIR/travis-settings.xml -P release \
      help:evaluate -Dexpression=project.scm.connection -Doutput=/tmp/project.scm.connection
 
+echo project.scm.connection = `cat /tmp/project.scm.connection`
 projectscmconnection=`cat /tmp/project.scm.connection`
 
 if [ -z "$projectscmconnection" ]; then
-		curl -XPOST -u "$GITHUBUSER:$GITHUBTOKEN" -d '{"body":"missing project.scm.connection in pom.xml"}' $comments
+	echo "missing project.scm.connection in pom.xml"
+	curl -XPOST -u "$GITHUBUSER:$GITHUBTOKEN" -d '{"body":"missing project.scm.connection in pom.xml"}' $comments
 fi
 
 if [ "scm:git:git@github.com:$TRAVIS_REPO_SLUG.git" != "$projectscmconnection" ]; then
-		curl -XPOST -u "$GITHUBUSER:$GITHUBTOKEN" -d '{"body":"invalid project.scm.connection in pom.xml: expected scm:git:git@github.com:'$TRAVIS_REPO_SLUG'.git but was '$projectscmconnection'!"}' $comments
+	echo invalid project.scm.connection in pom.xml: expected scm:git:git@github.com:$TRAVIS_REPO_SLUG.git but was $projectscmconnection
+	curl -XPOST -u "$GITHUBUSER:$GITHUBTOKEN" -d '{"body":"invalid project.scm.connection in pom.xml: expected scm:git:git@github.com:'$TRAVIS_REPO_SLUG'.git but was '$projectscmconnection'!"}' $comments
 fi
+
