@@ -91,10 +91,10 @@ mvn -B -f $TRAVIS_BUILD_DIR/pom.xml -s $TRAVIS_BUILD_DIR/travis-settings.xml -P 
 
 projectscmconnection=`cat /tmp/project.scm.connection`
 
-if [ -z "$projectscmconnection"]; then
+if [ -z "$projectscmconnection" ]; then
 		curl -XPOST -u "$GITHUBUSER:$GITHUBTOKEN" -d '{"body":"missing project.scm.connection in pom.xml"}' $comments
 fi
 
-if [ "scm:git:git@github.com:$TRAVIS_REPO_SLUG.git" != "$projectscmconnection"]; then
+if [ "scm:git:git@github.com:$TRAVIS_REPO_SLUG.git" != "$projectscmconnection" ]; then
 		curl -XPOST -u "$GITHUBUSER:$GITHUBTOKEN" -d '{"body":"invalid project.scm.connection in pom.xml: expected scm:git:git@github.com:'$TRAVIS_REPO_SLUG'.git but was '$projectscmconnection'!"}' $comments
 fi
