@@ -87,9 +87,9 @@ if [ ! -f $TRAVIS_BUILD_DIR/pom.xml ]; then
 fi
 
 mvn -B -f $TRAVIS_BUILD_DIR/pom.xml -s $TRAVIS_BUILD_DIR/travis-settings.xml -P release \
-     help:evaluate -Dexpression=project.scm.connection -Doutput=~/project.scm.connection
+     help:evaluate -Dexpression=project.scm.connection -Doutput=/tmp/project.scm.connection
 
-projectscmconnection=`cat ~/project.scm.connection`
+projectscmconnection=`cat /tmp/project.scm.connection`
 
 if [ -z "$projectscmconnection"]; then
 		curl -XPOST -u "$GITHUBUSER:$GITHUBTOKEN" -d '{"body":"missing project.scm.connection in pom.xml"}' $comments
