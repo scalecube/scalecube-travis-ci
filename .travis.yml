@@ -4,6 +4,7 @@ sudo: required
 env:
   - SLUG=scalecube/scalecube-cluster
   - SLUG=scalecube/scalecube-security
+  - SLUG=scalecube/config
 services:
 - docker
 
