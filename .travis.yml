@@ -6,9 +6,5 @@ services:
 
 install:
   docker build . --tag enable-ci-cd-using-travis
-deploy:
+script:
  ./docker.run.sh
-#branches:
-#  only:
-#  - /^master.*$/
-#  - /^develop-.*$/
