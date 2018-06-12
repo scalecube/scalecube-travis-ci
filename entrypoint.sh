@@ -104,12 +104,3 @@ if [ "scm:git:git@github.com:$TRAVIS_REPO_SLUG.git" != "$projectscmconnection" ]
 	curl -XPOST -u "$GITHUBUSER:$GITHUBTOKEN" -d '{"body":"invalid project.scm.connection in pom.xml: expected scm:git:git@github.com:'$TRAVIS_REPO_SLUG'.git but was '$projectscmconnection'!"}' $comments
 fi
 
-mvn -B -q -f $TRAVIS_BUILD_DIR/pom.xml -s $TRAVIS_BUILD_DIR/travis-settings.xml -P release \
-     help:evaluate -Dexpression=gpg.passphrase -Doutput=/tmp/gpg.passphrase
-// TODO 
-
-mvn -B -q -f $TRAVIS_BUILD_DIR/pom.xml -s $TRAVIS_BUILD_DIR/travis-settings.xml -P release \
-    fr.jcgay.maven.plugins:buildplan-maven-plugin:list-plugin -Dbuildplan.plugin=nexus-staging-maven-plugin -Dbuildplan.outputFile=/tmp/nexus-staging-maven-plugin
-    
-
-
