@@ -8,7 +8,7 @@ install:
   docker build . --tag enable-ci-cd-using-travis
 deploy:
  ./docker.run.sh
-branches:
-  only:
-  - /^master.*$/
-  - /^develop-.*$/
+#branches:
+#  only:
+#  - /^master.*$/
+#  - /^develop-.*$/
