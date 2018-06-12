@@ -1,14 +1,14 @@
 language: generic
 sudo: required
 
-env:
-  - SLUG=scalecube/scalecube-cluster
-  - SLUG=scalecube/scalecube-security
-  - SLUG=scalecube/config
 services:
 - docker
 
 install:
   docker build . --tag enable-ci-cd-using-travis
-script:
-  ./docker.run.sh
+deploy:
+ ./docker.run.sh
+branches:
+  only:
+  - /^master.*$/
+  - /^develop-.*$/

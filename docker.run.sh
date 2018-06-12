@@ -1,6 +1,6 @@
 #! /bin/bash 
 set -xe
-docker run -it --rm -e GITREPONAME=$SLUG \
+docker run -it --rm -e GITREPONAME=$TRAVIS_BRANCH \
     -e encrypted_key=$encrypted_key \
     -e encrypted_iv=$encrypted_iv \
     -e GITHUBTOKEN=$GITHUBTOKEN \
