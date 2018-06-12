@@ -40,13 +40,13 @@ yes | travis login --org --github-token $GITHUBTOKEN
 travis enable --org --store-repo $GITREPONAME
 
 if [ ! -f '.travis.yml'  ]; then
-    cat /opt/prepend.to.travis.yml > .travis.yml
 	travis init java --jdk openjdk8 \
 	   --before-install "./src/main/scripts/ci/before-install.sh" \
 	   --before-install "./src/main/scripts/cd/before-deploy.sh" \
 	   --after-success "java -jar ~/codacy-coverage-reporter-assembly.jar -l Java -r ./target/site/jacoco/jacoco.xml"
     
-    cat /opt/append.to.travis.yml >> .travis.yml
+    cat /opt/prepend.to.travis.yml .travis.yml /opt/append.to.travis.yml >> tmp.travis.yml
+    mv tmp.travis.yml .travis.yml
 	git add .travis.yml
     git commit -m "new: travis ci configuration file"
     echo ***** travis.yml *****
@@ -103,4 +103,13 @@ if [ "scm:git:git@github.com:$TRAVIS_REPO_SLUG.git" != "$projectscmconnection" ]
 	echo invalid project.scm.connection in pom.xml: expected scm:git:git@github.com:$TRAVIS_REPO_SLUG.git but was $projectscmconnection
 	curl -XPOST -u "$GITHUBUSER:$GITHUBTOKEN" -d '{"body":"invalid project.scm.connection in pom.xml: expected scm:git:git@github.com:'$TRAVIS_REPO_SLUG'.git but was '$projectscmconnection'!"}' $comments
 fi
+
+mvn -B -q -f $TRAVIS_BUILD_DIR/pom.xml -s $TRAVIS_BUILD_DIR/travis-settings.xml -P release \
+     help:evaluate -Dexpression=gpg.passphrase -Doutput=/tmp/gpg.passphrase
+// TODO 
+
+mvn -B -q -f $TRAVIS_BUILD_DIR/pom.xml -s $TRAVIS_BUILD_DIR/travis-settings.xml -P release \
+    fr.jcgay.maven.plugins:buildplan-maven-plugin:list-plugin -Dbuildplan.plugin=nexus-staging-maven-plugin -Dbuildplan.outputFile=/tmp/nexus-staging-maven-plugin
+    
+
 
