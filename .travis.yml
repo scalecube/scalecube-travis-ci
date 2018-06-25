@@ -5,6 +5,7 @@ env:
   - SLUG=scalecube/scalecube-cluster
   - SLUG=scalecube/scalecube-security
   - SLUG=scalecube/config
+  - SLUG=scalecube/scalecube-benchmarks
 services:
 - docker
 
