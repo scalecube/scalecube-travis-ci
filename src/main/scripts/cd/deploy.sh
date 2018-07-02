@@ -7,7 +7,7 @@ commit_to_develop() {
  git checkout -B develop 
  git rebase master
  git commit --amend -m "++++ Prepare for next development iteration build: $TRAVIS_BUILD_NUMBER ++++"
- git push --force origin develop
+ git push origin develop
 }
 
 mvn -P release release:prepare release:perform -DautoVersionSubmodules=true -DscmCommentPrefix="$TRAVIS_COMMIT_MESSAGE [skip ci] " -DskipTests=true -B -V -s travis-settings.xml
