@@ -7,6 +7,8 @@ env:
   - SLUG=scalecube/config
   - SLUG=scalecube/scalecube-benchmarks
   - SLUG=scalecube/scalecube-parent
+  - SLUG=scalecube/scalecube-gateway
+
 services:
 - docker
 
