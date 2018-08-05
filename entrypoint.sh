@@ -33,6 +33,8 @@ mkdir -p ~/repo/src/main/scripts/ci/
 cp ~/src/main/scripts/ci/*.sh $TRAVIS_BUILD_DIR/src/main/scripts/ci/
 chmod u+x $TRAVIS_BUILD_DIR/src/main/scripts/ci/*.sh
 
+cp ~/travis-settings.xml $TRAVIS_BUILD_DIR/
+
 git add --all
 git commit -am "+ script files" | true 
 
@@ -43,7 +45,7 @@ if [ ! -f '.travis.yml'  ]; then
 	travis init java --jdk openjdk8 \
 	   --before-install "./src/main/scripts/ci/before-install.sh" \
 	   --before-install "./src/main/scripts/cd/before-deploy.sh" \
-	   --after-success "java -jar ~/codacy-coverage-reporter-assembly.jar -l Java -r ./target/site/jacoco/jacoco.xml"
+	   --after-success "./src/main/scripts/ci/after-success.sh"
     
     cat /opt/prepend.to.travis.yml .travis.yml /opt/append.to.travis.yml >> tmp.travis.yml
     mv tmp.travis.yml .travis.yml
@@ -106,7 +108,6 @@ fi
 
 mvn -B -q -f $TRAVIS_BUILD_DIR/pom.xml -s $TRAVIS_BUILD_DIR/travis-settings.xml -P release \
      help:evaluate -Dexpression=gpg.passphrase -Doutput=/tmp/gpg.passphrase
-// TODO 
 
 mvn -B -q -f $TRAVIS_BUILD_DIR/pom.xml -s $TRAVIS_BUILD_DIR/travis-settings.xml -P release \
     fr.jcgay.maven.plugins:buildplan-maven-plugin:list-plugin -Dbuildplan.plugin=nexus-staging-maven-plugin -Dbuildplan.outputFile=/tmp/nexus-staging-maven-plugin
