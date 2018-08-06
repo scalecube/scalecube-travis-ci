@@ -23,8 +23,6 @@
         <activeByDefault>true</activeByDefault>
       </activation>
       <properties>
-        <!-- <gpg.executable>gpg</gpg.executable> -->
-        <!-- <gpg.keyname>${env.GPG_KEY_NAME}</gpg.keyname> -->
         <gpg.passphrase>${env.GPG_KEY}</gpg.passphrase>
       </properties>
     </profile>

@@ -4,7 +4,9 @@ RUN apt-get install -qy jq maven
 RUN ruby -v
 RUN mvn -version 
 RUN gem install travis
+
 ADD entrypoint.sh /opt
+ADD travis-settings.xml /opt
 ADD append.to.travis.yml /opt
 ADD prepend.to.travis.yml /opt
 
