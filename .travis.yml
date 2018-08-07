@@ -2,13 +2,12 @@ language: generic
 sudo: required
 
 env:
-  - SLUG=scalecube/scalecube-cluster
+  - SLUG=scalecube/scalecube-parent
   - SLUG=scalecube/scalecube-security
+  - SLUG=scalecube/scalecube-app-utils
   - SLUG=scalecube/config
   - SLUG=scalecube/scalecube-benchmarks
-  - SLUG=scalecube/scalecube-parent
   - SLUG=scalecube/scalecube-gateway
-
 services:
 - docker
 
