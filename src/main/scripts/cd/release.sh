@@ -1,5 +1,9 @@
 #!/bin/sh
 
+
+echo       Running $0
+echo *-*-*-*-*-*-*-*-*-*-*-*-*-*
+
 commit_to_develop() { 
  git fetch
  git branch -r
