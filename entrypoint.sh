@@ -22,7 +22,7 @@ git clone git@github.com:$GITREPONAME.git $TRAVIS_BUILD_DIR
 cd $TRAVIS_BUILD_DIR
 setupgit
 importpgp
-
+git pull
 DEFAULT_BRANCH=$(curl -u "$GITHUBUSER:$GITHUBTOKEN" https://api.github.com/repos/$GITREPONAME | jq '.default_branch')
 
 mkdir -p $TRAVIS_BUILD_DIR/src/main/scripts/cd/
@@ -42,18 +42,18 @@ yes | travis login --org --github-token $GITHUBTOKEN
 travis enable --org --store-repo $GITREPONAME
 
 if [ ! -f '.travis.yml'  ]; then
-	travis init java --jdk openjdk8 \
-	   --before-install "./src/main/scripts/ci/before-install.sh" \
-	   --before-install "./src/main/scripts/cd/before-deploy.sh" \
-	   --after-success "./src/main/scripts/ci/after-success.sh"
+	travis init java --jdk openjdk8
     
-    cat /opt/prepend.to.travis.yml .travis.yml /opt/append.to.travis.yml >> tmp.travis.yml
-    mv tmp.travis.yml .travis.yml
+    cp /opt/fix.travis.yml .travis.yml
 	git add .travis.yml
     git commit -m "new: travis ci configuration file"
+    
     echo ***** travis.yml *****
     cat .travis.yml
     echo ***** travis.yml *****
+else
+	cp /opt/fix.travis.yml .travis.yml
+	git add .travis.yml &&  commit -m "updated: travis ci configuration file" || true
 fi
 
 export encrypted_SOME_iv=$encrypted_iv
