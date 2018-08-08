@@ -1,6 +1,0 @@
-addons:
-  apt:
-    packages:
-    - libxml-xpath-perl
-sudo: required
-
