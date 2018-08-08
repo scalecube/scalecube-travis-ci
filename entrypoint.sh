@@ -33,7 +33,7 @@ mkdir -p ~/repo/src/main/scripts/ci/
 cp ~/src/main/scripts/ci/*.sh $TRAVIS_BUILD_DIR/src/main/scripts/ci/
 chmod u+x $TRAVIS_BUILD_DIR/src/main/scripts/ci/*.sh
 
-cp ~/opt/travis-settings.xml $TRAVIS_BUILD_DIR/
+cp /opt/travis-settings.xml $TRAVIS_BUILD_DIR/travis-settings.xml
 
 git add --all
 git commit -am "+ script files" | true 
