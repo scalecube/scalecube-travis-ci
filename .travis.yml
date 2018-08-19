@@ -3,7 +3,7 @@ sudo: required
 
 env:
   - SLUG=scalecube/scalecube-parent
-  - SLUG=scalecube/scalecube
+  - SLUG=scalecube/scalecube-services
   - SLUG=scalecube/scalecube-gateway
   - SLUG=scalecube/scalecube-security
   - SLUG=scalecube/scalecube-app-utils
