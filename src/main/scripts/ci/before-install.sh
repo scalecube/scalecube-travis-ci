@@ -4,7 +4,7 @@
 echo       Running $0
 echo *-*-*-*-*-*-*-*-*-*-*-*-*-*
 
-# loging to docker image repository
+echo logging to docker image repository:
 echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
 
 # get latest version of codacy reporter from sonatype
