@@ -11,8 +11,6 @@ env:
   - SLUG=scalecube/scalecube-benchmarks
   - SLUG=scalecube/scalecube-organization-service
   - SLUG=scalecube/scalecube-configuration-service
-services:
-- docker
 
 install:
   docker build . --tag enable-ci-cd-using-travis
