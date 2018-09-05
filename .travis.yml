@@ -2,17 +2,15 @@ language: generic
 sudo: required
 
 env:
-  - SLUG=scalecube/config
-  - SLUG=scalecube/scalecube-app-utils
-  - SLUG=scalecube/scalecube-benchmarks
-  - SLUG=scalecube/scalecube-gateway
-  - SLUG=scalecube/scalecube-organization-service
   - SLUG=scalecube/scalecube-parent
-  - SLUG=scalecube/scalecube-security
   - SLUG=scalecube/scalecube-services
-
-services:
-- docker
+  - SLUG=scalecube/scalecube-gateway
+  - SLUG=scalecube/scalecube-security
+  - SLUG=scalecube/scalecube-app-utils
+  - SLUG=scalecube/scalecube-config
+  - SLUG=scalecube/scalecube-benchmarks
+  - SLUG=scalecube/scalecube-organization-service
+  - SLUG=scalecube/scalecube-configuration-service
 
 install:
   docker build . --tag enable-ci-cd-using-travis

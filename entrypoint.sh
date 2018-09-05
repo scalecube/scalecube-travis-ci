@@ -34,6 +34,7 @@ cp ~/src/main/scripts/ci/*.sh $TRAVIS_BUILD_DIR/src/main/scripts/ci/
 chmod u+x $TRAVIS_BUILD_DIR/src/main/scripts/ci/*.sh
 
 cp /opt/travis-settings.xml $TRAVIS_BUILD_DIR/travis-settings.xml
+md5sum $TRAVIS_BUILD_DIR/travis-settings.xml
 
 git add --all
 git commit -am "+ script files" | true 
@@ -53,7 +54,7 @@ if [ ! -f '.travis.yml'  ]; then
     echo ***** travis.yml *****
 else
 	cp /opt/fix.travis.yml .travis.yml
-	git add .travis.yml &&  commit -m "updated: travis ci configuration file" || true
+	git add .travis.yml && git commit -m "updated: travis ci configuration file" || true
 fi
 
 export encrypted_SOME_iv=$encrypted_iv
