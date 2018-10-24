@@ -11,7 +11,7 @@ env:
   - SLUG=scalecube/scalecube-benchmarks
   - SLUG=scalecube/scalecube-organization-service
   - SLUG=scalecube/scalecube-configuration-service
-
+  - SLUG=scalecube/reactor-aeron
 install:
   docker build . --tag enable-ci-cd-using-travis
 script:
