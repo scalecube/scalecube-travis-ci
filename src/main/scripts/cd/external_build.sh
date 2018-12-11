@@ -60,7 +60,7 @@ class TravisBuilds:
 if __name__ == '__main__':
     external_build = os.getenv('TRIGGER_EXTERNAL_CI', '')
     if external_build:
-        travis = TravisBuilds(os.getenv('TESTS_REPO_NAME'), os.getenv('TRAVIS_AUTH_TOKEN'))
+        travis = TravisBuilds(external_build, os.getenv('TRAVIS_AUTH_TOKEN'))
         build = travis.start_build()
         result = travis.wait_for_build_result()
         if result:
