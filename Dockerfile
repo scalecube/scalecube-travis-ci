@@ -7,6 +7,7 @@ RUN gem install travis
 
 ADD entrypoint.sh /opt
 ADD travis-settings.xml /opt
+ADD requirements.txt /opt
 ADD fix.travis.yml /opt
 
 ADD src /root/src
