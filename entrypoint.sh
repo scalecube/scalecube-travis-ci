@@ -61,7 +61,7 @@ fi
 export encrypted_SOME_iv=$encrypted_iv
 export encrypted_SOME_key=$encrypted_key
 
-travis env copy encrypted_SOME_iv encrypted_SOME_key SONATYPE_USERNAME SONATYPE_PASSWORD GPG_KEYID GPG_PASSPHRASE GPG_KEY GITHUBUSER GITHUBTOKEN DOCKER_USERNAME DOCKER_PASSWORD -f -p
+travis env copy encrypted_SOME_iv encrypted_SOME_key SONATYPE_USERNAME SONATYPE_PASSWORD GPG_KEYID GPG_PASSPHRASE GPG_KEY GITHUBUSER GITHUBTOKEN DOCKER_USERNAME DOCKER_PASSWORD TRAVIS_AUTH_TOKEN -f -p
 
 git add .travis.yml && git commit -a -m "+ secret keys" || true
 
