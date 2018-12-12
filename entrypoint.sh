@@ -34,6 +34,7 @@ cp ~/src/main/scripts/ci/*.sh $TRAVIS_BUILD_DIR/src/main/scripts/ci/
 chmod u+x $TRAVIS_BUILD_DIR/src/main/scripts/ci/*.sh
 
 cp /opt/travis-settings.xml $TRAVIS_BUILD_DIR/travis-settings.xml
+cp /opt/requirements.txt $TRAVIS_BUILD_DIR/requirements.txt
 md5sum $TRAVIS_BUILD_DIR/travis-settings.xml
 
 git add --all
@@ -60,7 +61,7 @@ fi
 export encrypted_SOME_iv=$encrypted_iv
 export encrypted_SOME_key=$encrypted_key
 
-travis env copy encrypted_SOME_iv encrypted_SOME_key SONATYPE_USERNAME SONATYPE_PASSWORD GPG_KEYID GPG_PASSPHRASE GPG_KEY GITHUBUSER GITHUBTOKEN DOCKER_USERNAME DOCKER_PASSWORD -f -p
+travis env copy encrypted_SOME_iv encrypted_SOME_key SONATYPE_USERNAME SONATYPE_PASSWORD GPG_KEYID GPG_PASSPHRASE GPG_KEY GITHUBUSER GITHUBTOKEN DOCKER_USERNAME DOCKER_PASSWORD TRAVIS_AUTH_TOKEN -f -p
 
 git add .travis.yml && git commit -a -m "+ secret keys" || true
 

@@ -12,4 +12,5 @@ docker run -it --rm -e GITREPONAME=$SLUG \
     -e GITHUBUSER=$GITHUBUSER \
     -e DOCKER_USERNAME=$DOCKER_USERNAME \
     -e DOCKER_PASSWORD=$DOCKER_PASSWORD \
+    -e TRAVIS_AUTH_TOKEN=$TRAVIS_AUTH_TOKEN \
     enable-ci-cd-using-travis:latest
