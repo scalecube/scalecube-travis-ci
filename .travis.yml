@@ -14,6 +14,7 @@ env:
   - SLUG=scalecube/rsocket-transport-aeron
   - SLUG=scalecube/scalecube-test-utils
   - SLUG=scalecube/scalecube-cluster
+  - SLUG=scalecube/scalecube-seed
 install:
   docker build . --tag enable-ci-cd-using-travis
 script:
