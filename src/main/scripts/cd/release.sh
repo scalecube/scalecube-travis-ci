@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env sh
 
 DIRNAME=$(dirname $0)
 RELEASE_EXEC_FILES=$(find $DIRNAME -name 'release-*.sh')
