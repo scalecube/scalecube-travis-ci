@@ -16,6 +16,7 @@ env:
   - SLUG=scalecube/scalecube-cluster
   - SLUG=scalecube/scalecube-seed
   - SLUG=scalecube/trace-reporter
+  - SLUG=scalecube/aeron-cluster-poc
 install:
   docker build . --tag enable-ci-cd-using-travis
 script:
