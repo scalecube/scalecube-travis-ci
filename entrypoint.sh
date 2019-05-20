@@ -68,7 +68,15 @@ git add .travis.yml && git commit -a -m "+ secret keys" || true
 openssl aes-256-cbc -d -K $encrypted_key -iv $encrypted_iv -in ~/src/main/scripts/cd/secrets.tar.enc | openssl aes-256-cbc -K $encrypted_SOME_key -iv $encrypted_SOME_iv -out $TRAVIS_BUILD_DIR/src/main/scripts/cd/secrets.tar.enc
 git add src/main/scripts/cd/secrets.tar.enc
 git commit -a -m "+ secret file" || true
-git push origin travis-ci-cd
+
+if git diff $DEFAULT_BRANCH --exit-code; then 
+	echo Pushing CI branch...
+	git push origin travis-ci-cd
+else
+	echo CI is already applied. deleting unused branch...
+	git push --delete origin travis-ci-cd
+	exit 0 # we should stop here
+fi
 
 cd ~
 
