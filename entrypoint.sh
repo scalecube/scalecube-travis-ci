@@ -24,8 +24,6 @@ setupgit
 importpgp
 git pull
 DEFAULT_BRANCH=$(curl -u "$GITHUBUSER:$GITHUBTOKEN" https://api.github.com/repos/$GITREPONAME | jq '.default_branch')
-#delete old version of CI (if any)
-git push --delete origin $TRAVIS_BRANCH
 
 mkdir -p $TRAVIS_BUILD_DIR/src/main/scripts/cd/
 cp ~/src/main/scripts/cd/*.sh $TRAVIS_BUILD_DIR/src/main/scripts/cd/
@@ -72,12 +70,14 @@ git add src/main/scripts/cd/secrets.tar.enc
 git commit -a -m "+ secret file" || true
 
 CLEAN_BRANCH_NAME="${DEFAULT_BRANCH%\"}" && CLEAN_BRANCH_NAME="${CLEAN_BRANCH_NAME#\"}"
-if git diff $CLEAN_BRANCH_NAME --exit-code; then 
+if git diff origin/$CLEAN_BRANCH_NAME --exit-code; then 
+	echo CI is already applied. deleting unused branch...
+	# delete old version of CI (if any)
+    git push --delete origin $TRAVIS_BRANCH
+	exit 0 # we should stop here
+else
 	echo Pushing CI branch...
 	git push origin travis-ci-cd
-else
-	echo CI is already applied. deleting unused branch...
-	exit 0 # we should stop here
 fi
 
 cd ~
