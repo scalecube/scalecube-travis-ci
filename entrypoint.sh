@@ -40,6 +40,9 @@ md5sum $TRAVIS_BUILD_DIR/travis-settings.xml
 git add --all
 git commit -am "+ script files" | true 
 
+cp /opt/.gitignore $TRAVIS_BUILD_DIR/.gitignore
+git commit -am "+ git ignore" | true 
+
 yes | travis login --org --github-token $GITHUBTOKEN
 travis enable --org --store-repo $GITREPONAME
 

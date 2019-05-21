@@ -5,6 +5,7 @@ RUN ruby -v
 RUN mvn -version 
 RUN gem install travis
 
+ADD .gitignore /opt
 ADD entrypoint.sh /opt
 ADD travis-settings.xml /opt
 ADD requirements.txt /opt
