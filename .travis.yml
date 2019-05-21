@@ -5,7 +5,7 @@ env:
   - SLUG=scalecube/scalecube-parent
   - SLUG=scalecube/scalecube-services
   - SLUG=scalecube/scalecube-security
-  - SLUG=scalecube/scalecube-app-utils
+  - SLUG=scalecube/scalecube-package-utils
   - SLUG=scalecube/scalecube-config
   - SLUG=scalecube/scalecube-benchmarks
   - SLUG=scalecube/scalecube-organization-service
