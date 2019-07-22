@@ -31,6 +31,10 @@ check_tag_for_rc() {
       export NEW_RC_VERSION=$(echo $VERSION | sed  "s/SNAPSHOT/$RC_VER/g")
       echo Release candidate: $NEW_RC_VERSION
       echo *-*-*-*-*-*-*-*-*-*-*-*
+      decryptsecrets
+      importpgp
+      setupssh
+      setupgit
       export MVN_RELEASE_VERSION=-DreleaseVersion=$NEW_RC_VERSION
       if [ -n "$MVN_NEXT_VERSION" ] ; then
         export MVN_NEXT_VERSION=-DdevelopmentVersion=$VERSION;
