@@ -42,7 +42,7 @@ check_tag_for_rc() {
 check_next_version
 check_tag_for_rc
 
-echo mvn -P release -Darguments=-DskipTests release:prepare release:perform $MVN_RELEASE_VERSION $MVN_NEXT_VERSION -DautoVersionSubmodules=true -DscmCommentPrefix="$TRAVIS_COMMIT_MESSAGE [skip ci] " -B -V -s travis-settings.xml
+mvn -P release -Darguments=-DskipTests release:prepare release:perform $MVN_RELEASE_VERSION $MVN_NEXT_VERSION -DautoVersionSubmodules=true -DscmCommentPrefix="$TRAVIS_COMMIT_MESSAGE [skip ci] " -B -V -s travis-settings.xml
 
 mvn clean
 
