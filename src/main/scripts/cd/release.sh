@@ -6,13 +6,15 @@ RELEASE_EXEC_FILES=$(find $DIRNAME -name 'release-*.sh')
 echo       Running $0
 echo *-*-*-*-*-*-*-*-*-*-*-*-*-*
 
+. $DIRNAME/before-deploy.sh
+
 commit_to_develop() { 
- git fetch
- git branch -r
- git checkout -B develop 
- git rebase $TRAVIS_BRANCH
- git commit --amend -m "++++ Prepare for next development iteration build: $TRAVIS_BUILD_NUMBER ++++"
- git push origin develop
+  git fetch
+  git branch -r
+  git checkout -B develop 
+  git rebase $TRAVIS_BRANCH
+  git commit --amend -m "++++ Prepare for next development iteration build: $TRAVIS_BUILD_NUMBER ++++"
+  git push origin develop
 }
 
 check_next_version() {
