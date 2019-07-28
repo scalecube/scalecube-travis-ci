@@ -47,18 +47,18 @@ yes | travis login --org --github-token $GITHUBTOKEN
 travis enable --org --store-repo $GITREPONAME
 
 if [ ! -f '.travis.yml'  ]; then
-	travis init java --jdk openjdk8
-    
-    cp /opt/fix.travis.yml .travis.yml
-	git add .travis.yml
-    git commit -m "new: travis ci configuration file"
-    
-    echo ***** travis.yml *****
-    cat .travis.yml
-    echo ***** travis.yml *****
+   travis init java --jdk openjdk8
+   
+   cp /opt/fix.travis.yml .travis.yml
+   git add .travis.yml
+   git commit -m "new: travis ci configuration file"
+   
+   echo ***** travis.yml *****
+   cat .travis.yml
+   echo ***** travis.yml *****
 else
-	cp /opt/fix.travis.yml .travis.yml
-	git add .travis.yml && git commit -m "updated: travis ci configuration file" || true
+   cp /opt/fix.travis.yml .travis.yml
+   git add .travis.yml && git commit -m "updated: travis ci configuration file" || true
 fi
 
 export encrypted_SOME_iv=$encrypted_iv
@@ -74,13 +74,13 @@ git commit -a -m "+ secret file" || true
 
 CLEAN_BRANCH_NAME="${DEFAULT_BRANCH%\"}" && CLEAN_BRANCH_NAME="${CLEAN_BRANCH_NAME#\"}"
 if git diff origin/$CLEAN_BRANCH_NAME --exit-code; then 
-	echo CI is already applied. deleting unused branch...
-	# delete old version of CI (if any)
-    git push --delete origin $TRAVIS_BRANCH
-	exit 0 # we should stop here
+   echo CI is already applied. deleting unused branch...
+   # delete old version of CI (if any)
+   git push --delete origin $TRAVIS_BRANCH
+   exit 0 # we should stop here
 else
-	echo Pushing CI branch...
-	git push origin travis-ci-cd
+   echo Pushing CI branch...
+   git push origin travis-ci-cd
 fi
 
 cd ~
@@ -94,38 +94,38 @@ curl -XPOST -u "$GITHUBUSER:$GITHUBTOKEN" \
 eval "export comments=`jq '._links.comments.href' ~/pullrequest.json`"
 
 if [ ! -f $TRAVIS_BUILD_DIR/travis-settings.xml ]; then
-	echo missing travis-settings.xml
-	curl -XPOST -u "$GITHUBUSER:$GITHUBTOKEN" -d '{"body":"missing travis-settings.xml"}' $comments
-	exit 142
+   echo missing travis-settings.xml
+   curl -XPOST -u "$GITHUBUSER:$GITHUBTOKEN" -d '{"body":"missing travis-settings.xml"}' $comments
+   exit 142
 fi
 
 if [ ! -f $TRAVIS_BUILD_DIR/pom.xml ]; then
-	echo missing pom.xml. is it a java project?
-	curl -XPOST -u "$GITHUBUSER:$GITHUBTOKEN" -d '{"body":"missing pom.xml. is it a java project?"}' $comments
-	exit 142
+   echo missing pom.xml. is it a java project?
+   curl -XPOST -u "$GITHUBUSER:$GITHUBTOKEN" -d '{"body":"missing pom.xml. is it a java project?"}' $comments
+   exit 142
 fi
 
 mvn -B -q -f $TRAVIS_BUILD_DIR/pom.xml -s $TRAVIS_BUILD_DIR/travis-settings.xml -P release \
-     help:evaluate -Dexpression=project.scm.connection -Doutput=/tmp/project.scm.connection
+   help:evaluate -Dexpression=project.scm.connection -Doutput=/tmp/project.scm.connection
 
 echo project.scm.connection = `cat /tmp/project.scm.connection`
 projectscmconnection=`cat /tmp/project.scm.connection`
 
 if [ -z "$projectscmconnection" ]; then
-	echo "missing project.scm.connection in pom.xml"
-	curl -XPOST -u "$GITHUBUSER:$GITHUBTOKEN" -d '{"body":"missing project.scm.connection in pom.xml"}' $comments
+   echo "missing project.scm.connection in pom.xml"
+   curl -XPOST -u "$GITHUBUSER:$GITHUBTOKEN" -d '{"body":"missing project.scm.connection in pom.xml"}' $comments
 fi
 
 if [ "scm:git:git@github.com:$TRAVIS_REPO_SLUG.git" != "$projectscmconnection" ]; then
-	echo invalid project.scm.connection in pom.xml: expected scm:git:git@github.com:$TRAVIS_REPO_SLUG.git but was $projectscmconnection
-	curl -XPOST -u "$GITHUBUSER:$GITHUBTOKEN" -d '{"body":"invalid project.scm.connection in pom.xml: expected scm:git:git@github.com:'$TRAVIS_REPO_SLUG'.git but was '$projectscmconnection'!"}' $comments
+   echo invalid project.scm.connection in pom.xml: expected scm:git:git@github.com:$TRAVIS_REPO_SLUG.git but was $projectscmconnection
+   curl -XPOST -u "$GITHUBUSER:$GITHUBTOKEN" -d '{"body":"invalid project.scm.connection in pom.xml: expected scm:git:git@github.com:'$TRAVIS_REPO_SLUG'.git but was '$projectscmconnection'!"}' $comments
 fi
 
 mvn -B -q -f $TRAVIS_BUILD_DIR/pom.xml -s $TRAVIS_BUILD_DIR/travis-settings.xml -P release \
-     help:evaluate -Dexpression=gpg.passphrase -Doutput=/tmp/gpg.passphrase
+   help:evaluate -Dexpression=gpg.passphrase -Doutput=/tmp/gpg.passphrase
 
 mvn -B -q -f $TRAVIS_BUILD_DIR/pom.xml -s $TRAVIS_BUILD_DIR/travis-settings.xml -P release \
-    fr.jcgay.maven.plugins:buildplan-maven-plugin:list-plugin -Dbuildplan.plugin=nexus-staging-maven-plugin -Dbuildplan.outputFile=/tmp/nexus-staging-maven-plugin
-    
+   fr.jcgay.maven.plugins:buildplan-maven-plugin:list-plugin -Dbuildplan.plugin=nexus-staging-maven-plugin -Dbuildplan.outputFile=/tmp/nexus-staging-maven-plugin
+   
 
 

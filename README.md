@@ -12,7 +12,7 @@ This project automatically apply CI/CD for your scalecube project. it apply the 
 
 ### In order to enable CI-CD on your project:
 
-0. git clone git@github.com:scalecube/enable-ci-cd-using-travis.git
+0. git clone git@github.com:scalecube/scalecube-travis-ci.git
 1. download secrets file.
 2. `docker build . --tag enable-ci-cd-using-travis`
 3. `docker run -it --rm  --env-file secrets -e GITREPONAME=scalecube/your-new-repo enable-ci-cd-using-travis`
