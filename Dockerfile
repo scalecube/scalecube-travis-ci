@@ -1,4 +1,4 @@
-FROM ruby as enable-ci-cd-using-travis
+FROM ruby as scalecube/scalecube-travis-ci
 RUN apt-get update -qy
 RUN apt-get install -qy jq maven
 RUN ruby -v
