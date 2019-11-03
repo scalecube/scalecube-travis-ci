@@ -1,4 +1,4 @@
-FROM ruby as scalecube/scalecube-travis-ci
+FROM ruby as scalecube-travis-ci
 RUN apt-get update -qy
 RUN apt-get install -qy jq maven
 RUN ruby -v
