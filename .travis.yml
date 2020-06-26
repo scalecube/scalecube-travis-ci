@@ -20,7 +20,6 @@ env:
   - SLUG=scalecube/scalecube-gateway
   - SLUG=scalecube/scalecube-commons
   - SLUG=scalecube/scalecube-spring-boot-starter
-  - SLUG=scalecube/scalecube-vaultenv
 install:
   docker build . --tag enable-ci-cd-using-travis
 script:
