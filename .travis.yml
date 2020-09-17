@@ -4,7 +4,6 @@ sudo: required
 env:
   - SLUG=scalecube/scalecube-services
   - SLUG=scalecube/scalecube-security
-  - SLUG=scalecube/scalecube-config
   - SLUG=scalecube/scalecube-benchmarks
   - SLUG=scalecube/reactor-aeron
   - SLUG=scalecube/rsocket-transport-aeron
