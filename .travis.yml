@@ -12,7 +12,6 @@ env:
   - SLUG=scalecube/reactor-aeron
   - SLUG=scalecube/rsocket-transport-aeron
   - SLUG=scalecube/scalecube-test-utils
-  - SLUG=scalecube/scalecube-cluster
   - SLUG=scalecube/scalecube-seed
   - SLUG=scalecube/trace-reporter
   - SLUG=scalecube/aeron-cluster-poc
