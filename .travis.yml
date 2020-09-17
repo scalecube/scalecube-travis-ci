@@ -13,7 +13,6 @@ env:
   - SLUG=scalecube/rsocket-transport-aeron
   - SLUG=scalecube/scalecube-test-utils
   - SLUG=scalecube/scalecube-seed
-  - SLUG=scalecube/trace-reporter
   - SLUG=scalecube/aeron-cluster-poc
   - SLUG=scalecube/scalecube-gateway
   - SLUG=scalecube/scalecube-spring-boot-starter
