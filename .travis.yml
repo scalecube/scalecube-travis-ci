@@ -7,7 +7,6 @@ env:
   - SLUG=scalecube/reactor-aeron
   - SLUG=scalecube/rsocket-transport-aeron
   - SLUG=scalecube/scalecube-test-utils
-  - SLUG=scalecube/scalecube-seed
   - SLUG=scalecube/aeron-cluster-poc
   - SLUG=scalecube/scalecube-spring-boot-starter
 install:
