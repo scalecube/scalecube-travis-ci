@@ -2,7 +2,6 @@ language: generic
 sudo: required
 
 env:
-  - SLUG=scalecube/scalecube-security
   - SLUG=scalecube/scalecube-benchmarks
   - SLUG=scalecube/rsocket-transport-aeron
   - SLUG=scalecube/scalecube-organization-service
